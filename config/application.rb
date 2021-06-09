@@ -18,5 +18,8 @@ module BookTrade
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    
+    # rails6よりセキュリティの観点からホスト名を以下の様にホワイトリストに設定しなければローカルサーバに繋がらない(development環境のみ)
+    config.hosts << "99f03a8afc064b46b8c98f2238412383.vfs.cloud9.us-east-1.amazonaws.com"
   end
 end
