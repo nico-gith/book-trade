@@ -1,0 +1,36 @@
+<div class="top-hero-wrapper text-center">
+  <div class="container top-hero-container">
+    <h1 class="text-white">More good fun</h1>
+    <h2 class="text-white">Booktrade is a service that you can trade book.</h2>
+    <div class="row">
+      <div class="col-md-offset-3 col-md-3">
+        <%#トレード成立はこのページでの一覧表示にしたい%>
+        <%#<%= link_to 'トレード成立', trades_path,class: 'btn btn-block btn-white'%>
+      </div>
+      <div class="col-md-offset-3 col-md-3">
+        <%#以下はこのページに検索機能を入れたい%>
+        <%#<%= link_to '本を探す',books_search_path,class: 'btn btn-block btn-white'%>
+      </div>
+      <div class="col-md-3">
+        <%#以下は10位までをこのページでの一覧表示に変えたい%>
+        <%#-<%= link_to '評価の高いユーザ',favorites_index_path,class: 'btn btn-block btn-white'%>-->
+      </div>
+      <div class="col-md-3">
+        <%#以下は本の登録画面に行くようにする%>
+        <%= link_to '本棚へ追加する',new_book_path,class: 'btn btn-block btn-white'%>
+      </div>
+      <div class="col-md-3">
+        <%#以下は自分が欲しい本と相手の情報に行くようにする。出来ればこのページ%>
+        <%#<%= link_to 'リクエスト中の本',books_reqest_path,class: 'btn btn-block btn-white'%>-->
+      </div>
+      <div class="col-md-3">
+        <%#以下は自分が欲しい本と相手の情報に行くようにする。出来ればこのページ%>
+        <%= link_to '本棚',books_path,class: 'btn btn-block btn-white'%>
+      </div>
+      <div class="col-md-3">
+        <%#以下は自分が欲しい本と相手の情報に行くようにする。出来ればこのページ%>
+        <%#<%= link_to '登録ユーザ',favorites_mylist_path,class: 'btn btn-block btn-white'%>-->
+      </div>
+    </div>
+  </div>
+</div>

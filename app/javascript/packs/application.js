@@ -12,5 +12,10 @@ Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
 
-import 'bootstrap';
-import '../stylesheets/application';
+//ここから
+
+import '../packs/pages';
+
+//import 'bootstrap';
+//import '../stylesheets/application';
+

@@ -21,5 +21,8 @@ module BookTrade
     
     # rails6よりセキュリティの観点からホスト名を以下の様にホワイトリストに設定しなければローカルサーバに繋がらない(development環境のみ)
     config.hosts << "99f03a8afc064b46b8c98f2238412383.vfs.cloud9.us-east-1.amazonaws.com"
+    
+    # 以下のブラウザエラーの対策Cannot render console from 122.215.69.169! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+    config.web_console.whitelisted_ips = '122.215.69.169'
   end
 end
