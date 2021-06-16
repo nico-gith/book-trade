@@ -1,0 +1,74 @@
+<div class = "book-index-wrapper" >
+  <%= sprintf('In The Request') %>
+  <div class ="container" >
+    <% @books.each do |book| %>
+
+    <% if book.user_id != current_user.id %> <%#ログインユーザの本以外を表示%>
+
+      <%# トレード成立済みか判定 %>
+            <% if book.trades.each do |b_trade| %>
+             <% if b_trade.status == 2 %>
+              <% @check.b_count = 1 %>
+             <% end %>
+             <% end.empty? %>
+              <% @check.b_count = 0 %>
+            <% end %>
+
+            <% if book.user.trades.each do |u_trade| %>
+             <% if u_trade.sender_book_id == book.id %>
+              <% @check.u_count = 1 %>
+             <% end %>
+             <% end.empty? %>
+              <% @check.u_count = 0 %>
+            <% end %>
+
+    <% if ! (@check.b_count == 1 || @check.u_count == 1) %> <%#トレード成立済みでない場合表示%>
+
+     <% @mytrades.each do |mytrade| %>   <%#自分がリクエストした本である場合表示%>
+      <% if mytrade.book_id == book.id %>
+
+       <div class = "row">
+         <div class = "col-md-6 col-md-offset-3">
+           <div class = "book-index-single">
+
+           <h2 class = "book-author">
+             <%= book.title %>
+           </h2>
+           <%= image_tag book.image.url %>
+           <%= sprintf('Information') %>
+           <p class = "book-text">
+             <%= book.author %>
+           </p>
+           <p class = "book-text">
+             <%= book.publisher %>
+           </p>
+           <p class = "book-text">
+             <%= book.description %>
+           </p>
+           <p class = "book-text">
+             <%= sprintf('ユーザ ') %>
+             <%= link_to user_otherprofile_path(id: book.user.id) do %> <%# link_to()としても良い%>
+             <%= book.user.nickname %>
+             <% end %>
+           </p>
+           <%= link_to book_path(book_id: book.id), method: :delete ,data:{confirm:"この本の登録を解除しますか？"} do %>
+            <%= image_tag 'icons/release.png', class: 'topic-index-icon' %>
+           <% end %>
+         </div>
+        </div>
+      </div>
+     <% end %>
+    <% end %>
+
+    <% else %> <%#トレード成立済みの場合、判定変数をクリア%>
+
+      <% @check.b_count = 0 %>
+      <% @check.u_count = 0 %>
+
+    <% end %>
+
+   <% end %>
+
+  <% end %>
+ </div>
+</div>

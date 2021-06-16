@@ -1,0 +1,111 @@
+<div class="users-new-wrapper">
+ <div class="container">
+   <div class="row">
+     <div class="col-md-offset-4 col-md-4 users-new-container">
+       <h1 class="text-center text-white">相手の本</h1>
+
+    <div class ="container" >
+      <% @books.each do |book| %>
+        <div class = "row">
+          <div class = "col-md-6 col-md-offset-3">
+            <div class = "book-index-single">
+
+               <%# トレード成立済みか判定 %>
+                     <% if book.trades.each do |b_trade| %>
+                      <% if b_trade.status == 2 %>
+                       <% @check.b_count = 1 %>
+                      <% end %>
+                      <% end.empty? %>
+                       <% @check.b_count = 0 %>
+                     <% end %>
+
+                     <% if book.user.trades.each do |u_trade| %>
+                      <% if u_trade.sender_book_id == book.id %>
+                       <% @check.u_count = 1 %>
+                      <% end %>
+                      <% end.empty? %>
+                       <% @check.u_count = 0 %>
+                     <% end %>
+
+              <% if ! (@check.b_count == 1 || @check.u_count == 1) %> <%#トレード成立済みでない場合、表示%>
+
+                 <h2 class = "book-author">
+                   <%= book.title %>
+                 </h2>
+                 <%= image_tag book.image.url %>
+                 <%= sprintf('Information') %>
+                 <p class = "book-text">
+                   <%= book.author %>
+                 </p>
+                 <p class = "book-text">
+                   <%= book.publisher %>
+                 </p>
+                 <p class = "book-text">
+                   <%= book.description %>
+                 </p>
+                 <p class = "book-text">
+                   <%= sprintf('ユーザ ') %>
+                   <%= book.user.nickname %>
+                 </p>
+
+
+       <%# 二重取引の防止。ログインユーザが登録した本のユーザと一覧表示される本のユーザが一致するか判定(トレードは未成立)%>
+               <% if current_user.trades.each do |trade| %>
+                <% if trade.receiver_id == book.user_id && trade.status == 1 %>
+                  <% @check.r_count = 1 %>
+                <% end %>
+               <% end.empty? %>
+                  <% @check.r_count = 0 %>
+               <% end %>
+
+       <%# その本をログインユーザが登録済みか判定 %>
+             <% if book.trades.each do |bu_trade| %>
+              <% if bu_trade.user_id == current_user.id %>
+                 <% @check.bu_count = 1 %>
+              <% end %>
+             <% end.empty? %>
+                 <% @check.bu_count = 0 %>
+             <% end %>
+
+             <%# 各状態に応じた表示 %>
+
+            <%#    <%= image_tag 'icons/trade.png', class: 'topic-index-icon' %>
+
+               <% if @check.r_count == 1  %> <%#トレード成立済みでなく、ログインユーザがその本のユーザの任意の本を登録済みの場合%>
+
+                 <% if @check.bu_count == 1 %> <%#その本を登録済みの場合、解除ボタンを表示%>
+                  <%= link_to trade_path(book_id: book.id), method: :delete ,data:{confirm:"この本の登録を解除しますか？"} do %>
+                   <%= image_tag 'icons/release.png', class: 'topic-index-icon' %>
+                   <% @check.r_count = 0 %>
+                   <% @check.bu_count = 0 %>
+                  <% end %>
+                 <% else %> <%#その本以外の本を登録済みの場合、登録無効と表示%>
+                  <%= image_tag 'icons/invalid.png', class: 'topic-index-icon' %>
+                  <% @check.r_count = 0 %>
+                 <% end %>
+
+               <% else %> <%#トレード成立済みでなく、ログインユーザがその本のユーザの任意の本を未登録の場合、登録ボタンを表示%>
+
+                 <%= link_to trade_path(user_id: book.user_id,book_id: book.id), method: :post do %>
+                   <%= image_tag 'icons/request.png', class: 'topic-index-icon' %>
+                 <% end %>
+
+               <% end %>
+
+             <% else %> <%#トレード成立済みの場合、判定変数をクリア%>
+
+               <% @check.b_count = 0 %>
+               <% @check.u_count = 0 %>
+
+              <% end %>
+
+            </div>
+           </div>
+         </div>
+       <% end %>
+       </div>
+
+      </div>
+    </div>
+  </div>
+</div>

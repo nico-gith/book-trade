@@ -1,0 +1,70 @@
+<div class = "book-index-wrapper" >
+  <%= sprintf('My Bookshelf') %>
+  <div class ="container" >
+    <% @books.each do |book| %>
+
+    <%# トレード成立済みか判定 %>
+          <% if book.trades.each do |b_trade| %>
+           <% if b_trade.status == 2 %>
+            <% @check.b_count = 1 %>
+           <% end %>
+           <% end.empty? %>
+            <% @check.b_count = 0 %>
+          <% end %>
+
+          <% if book.user.trades.each do |u_trade| %>
+           <% if u_trade.sender_book_id == book.id %>
+            <% @check.u_count = 1 %>
+           <% end %>
+           <% end.empty? %>
+            <% @check.u_count = 0 %>
+          <% end %>
+
+  <% if ! (@check.b_count == 1 || @check.u_count == 1) %> <%#トレード成立済みでない場合表示%>
+
+     <div class = "row">
+       <div class = "col-md-6 col-md-offset-3">
+         <div class = "book-index-single">
+           <h2 class = "book-author">
+             <%= book.title %>
+           </h2>
+           <%= image_tag book.image.url %>
+           <%= sprintf('Information') %>
+           <p class = "book-text">
+             <%= book.author %>
+           </p>
+           <p class = "book-text">
+             <%= book.publisher %>
+           </p>
+           <p class = "book-text">
+             <%= book.description %>
+           </p>
+
+        <% book.trades.each do |b_trade| %> <%#リクエストされている場合表示%>
+
+         <% if b_trade.status == 1 %>
+         <p class = "book-text">
+           <%= sprintf('★') %>
+           <%= link_to user_otherprofile_path(id: b_trade.user_id) do %> <%# link_to()としても良い%>
+           <%= b_trade.user.nickname %>
+           <% end %>
+           <%= sprintf('さんにリクエストされています') %>
+         </p>
+         <% end %>
+
+        <% end %>
+
+        </div>
+      </div>
+    </div>
+
+    <% else %> <%#トレード成立済みの場合、判定変数をクリア%>
+
+      <% @check.b_count = 0 %>
+      <% @check.u_count = 0 %>
+
+    <% end %>
+
+  <% end %>
+ </div>
+</div>
