@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_06_144928) do
+ActiveRecord::Schema.define(version: 2021_08_07_145651) do
+
+  create_table "books", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "title"
+    t.string "author"
+    t.string "publisher"
+    t.string "image"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", charset: "utf8mb4", force: :cascade do |t|
     t.string "name"
